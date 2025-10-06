@@ -2,8 +2,72 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    color: rgb(221, 221, 221);
+}
+
+html, body {
+    height: 100%;
 }
 
 body {
-    background-color: #282828;
+    display: flex;
+    background-color: #0f0f0f;
+    font-family: sans-serif;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 500px;
+    background-color: #161616;
+    border-right: 1px solid #333;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100vh;
+    scrollbar-width: thin; 
+    scrollbar-color: #555 #1e1e1e;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 4px;
+}
+.sidebar::-webkit-scrollbar-track {
+    background: #1e1e1e;
+}
+
+main {
+    flex: 1;
+    background-color: #202020;
+}
+
+.locations-title {
+    font-weight: bold;
+    margin: 20px 0 10px;
+    font-size: 18px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 4px;
+}
+
+.locations-list {
+    list-style: decimal inside;
+    margin: 0;
+    padding: 0 0 10px 10px;
+    columns: 2;
+}
+
+.locations-list-item {
+    font-size: 16px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+
+.locations-list-item:hover {
+    color: rgb(134, 134, 134);
 }
