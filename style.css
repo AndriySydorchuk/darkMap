@@ -7,6 +7,7 @@
 
 html, body {
     height: 100%;
+    overflow: hidden;
 }
 
 body {
@@ -27,6 +28,8 @@ body {
     height: 100vh;
     scrollbar-width: thin; 
     scrollbar-color: #555 #1e1e1e;
+    position: relative;
+    z-index: 1;
 }
 
 .sidebar::-webkit-scrollbar {
@@ -123,4 +126,16 @@ main {
 
 .locations-list-item:hover, .shrines-list-item:hover, .loots-list-item:hover {
     color: rgb(134, 134, 134);
+}
+
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.map-img {
+    width: 500px;
+    height: 500px;
+    z-index: -1;
 }
