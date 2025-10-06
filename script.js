@@ -1,24 +1,46 @@
 document.addEventListener('DOMContentLoaded', () => {
     const main = document.querySelector('.main');
     const mapImg = document.querySelector('.map-img');
+    const mapGrid = document.querySelector('.map-grid');
+    const locationsTitle = document.querySelector('.locations-title');
     let scale = 1;
     let translateX = 0;
     let translateY = 0;
+    let showingGrid = false;
 
     mapImg.addEventListener('dragstart', e => e.preventDefault());
+    mapGrid.addEventListener('dragstart', e => e.preventDefault());
+
+    locationsTitle.addEventListener('click', () => {
+        showingGrid = !showingGrid;
+
+        if (showingGrid) {
+            mapImg.style.opacity = 0;
+            mapGrid.style.opacity = 1;
+            mapImg.style.display = 'none';
+            mapGrid.style.display = 'inline-block';
+        } else {
+            mapImg.style.opacity = 1;
+            mapGrid.style.opacity = 0;
+            mapImg.style.display = 'inline-block';
+            mapGrid.style.display = 'none';
+        }
+
+        showingGrid ? locationsTitle.style.textDecoration = 'line-through' : locationsTitle.style.textDecoration = 'none';
+        showingGrid ? locationsTitle.style.color = 'gray' : locationsTitle.style.color = 'rgb(221, 221, 221)';
+    });
 
     main.addEventListener('wheel', (e) => {
         e.preventDefault();
 
         const rect = mapImg.getBoundingClientRect();
-        const offsetX = e.clientX - rect.left; // позиція курсора на зображенні
+        const offsetX = e.clientX - rect.left;
         const offsetY = e.clientY - rect.top;
 
         const prevScale = scale;
         scale += e.deltaY * -0.001;
         scale = Math.min(Math.max(scale, 0.5), 5);
 
-        // Розрахунок нових зсувів (щоб zoom не “стрибав”)
         const zoomFactor = scale / prevScale;
         translateX -= (offsetX - translateX) * (zoomFactor - 1);
         translateY -= (offsetY - translateY) * (zoomFactor - 1);
@@ -50,7 +72,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function updateTransform() {
-        mapImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+        const transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+        mapImg.style.transform = transform;
+        mapGrid.style.transform = transform;
         mapImg.style.transformOrigin = '0 0';
+        mapGrid.style.transformOrigin = '0 0';
     }
 });
