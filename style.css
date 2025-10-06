@@ -45,7 +45,7 @@ main {
     background-color: #202020;
 }
 
-.locations-title {
+.locations-title, .shrines-title, .loots-title {
     font-weight: bold;
     margin: 20px 0 10px;
     font-size: 18px;
@@ -53,14 +53,21 @@ main {
     padding-bottom: 4px;
 }
 
-.locations-list {
-    list-style: decimal inside;
+.locations-list, .shrines-list, .loots-list {
     margin: 0;
     padding: 0 0 10px 10px;
     columns: 2;
 }
 
-.locations-list-item {
+.locations-list {
+    list-style: decimal inside;
+}
+
+.shrines-list, .loots-list {
+    list-style: none;
+}
+
+.locations-list-item, .shrines-list-item, .loots-list-item {
     font-size: 16px;
     margin-bottom: 6px;
     cursor: pointer;
@@ -68,6 +75,52 @@ main {
     overflow-wrap: break-word;
 }
 
-.locations-list-item:hover {
+.shrines-list-item, .loots-list-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.shrines-list-item::before {
+    content: '〇';
+    font-size: 20px;
+    color: blue;
+}
+
+.shrines-list-item:nth-child(2)::before {
+    color: red;
+}
+
+.shrines-list-item:nth-child(3)::before {
+    color: gray;
+}
+
+.shrines-list-item:nth-child(4)::before {
+    color: white;
+}
+
+.shrines-list-item:nth-child(5)::before {
+    color: green;
+}
+
+.loots-list-item::before {
+    content: '◇';
+    font-size: 20px;
+    color: gold;
+}
+
+.loots-list-item:nth-child(2)::before {
+    content: '☆';
+}
+
+.loots-list-item:nth-child(3)::before {
+    content: '𓏚';
+}
+
+.loots-list-item:nth-child(4)::before {
+    content: '✧';
+}
+
+.locations-list-item:hover, .shrines-list-item:hover, .loots-list-item:hover {
     color: rgb(134, 134, 134);
 }
