@@ -31,6 +31,19 @@ body {
     scrollbar-color: #555 #1e1e1e;
     position: relative;
     z-index: 3;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: 0.2s;
+}
+
+.sidebar.collapsed {
+    width: 0;
+    padding: 0;
+}
+
+.sidebar.collapsed *:not(.toggleSidebar) {
+    visibility: hidden
 }
 
 .sidebar::-webkit-scrollbar {
@@ -44,9 +57,25 @@ body {
     background: #1e1e1e;
 }
 
+.toggleSidebar {
+    position: fixed;
+    top: 0;
+    left: 442px;
+    font-size: 30px;
+    background-color: rgb(55, 55, 255);
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.toggleSidebar:hover {
+    background-color: rgba(55, 55, 255, 0.695);
+}
+
 main {
     flex: 1;
     background-color: #202020;
+    position: relative;
 }
 
 .locations-title, .shrines-title, .loots-title {
@@ -127,12 +156,6 @@ main {
 
 .locations-list-item:hover, .shrines-list-item:hover, .loots-list-item:hover {
     color: rgb(134, 134, 134);
-}
-
-.main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .map-container {

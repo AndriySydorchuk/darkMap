@@ -78,4 +78,23 @@ document.addEventListener('DOMContentLoaded', () => {
         mapImg.style.transformOrigin = '0 0';
         mapGrid.style.transformOrigin = '0 0';
     }
+
+    const sidebar = document.querySelector('.sidebar');
+    const toggleSidebar = document.querySelector('.toggleSidebar');
+    let toggledSidebar = false;
+
+    toggleSidebar.addEventListener('click', () => {
+        toggledSidebar = !toggledSidebar;
+        
+        if(toggledSidebar) {
+            toggleSidebar.style.transform = 'scaleX(-1)';
+            toggleSidebar.style.left = '0';
+            sidebar.classList.add('collapsed');
+        } else {
+            toggleSidebar.style.transform = '';
+            toggleSidebar.style.left = '442px';
+            sidebar.classList.remove('collapsed');
+        }
+        
+    });
 });
