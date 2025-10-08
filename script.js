@@ -1,11 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
     const main = document.querySelector('.main');
+
+    const mapContainer = document.querySelector('.map-container');
+    const mapInner = document.querySelector('.map-inner');
     const mapImg = document.querySelector('.map-img');
     const mapGrid = document.querySelector('.map-grid');
+
     const locationsTitle = document.querySelector('.locations-title');
+    
     let scale = 1;
+    let markerScale = 1;
     let translateX = 0;
     let translateY = 0;
+    
     let showingGrid = false;
 
     mapImg.addEventListener('dragstart', e => e.preventDefault());
@@ -19,39 +26,75 @@ document.addEventListener('DOMContentLoaded', () => {
             mapGrid.style.opacity = 1;
             mapImg.style.display = 'none';
             mapGrid.style.display = 'inline-block';
+            locationsTitle.style.textDecoration = 'line-through';
+            locationsTitle.style.color = 'gray';
+
+            addMarker(355, 380, 'остров черепа');
+            addMarker(410, 295, 'канава');
+            addMarker(315, 295, 'долина морских звёзд');
+            addMarker(260, 420, 'подводная пещера А');
+            addMarker(190, 400, 'заброшенный корабль');
+            addMarker(160, 410, 'вулкан');
+            addMarker(30, 390, 'пиратская тюрьма');
+            addMarker(135, 350, 'коралловый лес');
+            addMarker(70, 295, 'двойные камеры');
+            addMarker(70, 240, 'туманный дозор');
+            addMarker(5, 240, 'затонувший корабль');
+            addMarker(70, 180, 'гробница русалок');
+            addMarker(45, 80, 'убежище блейдхэнда');
+            addMarker(140, 110, 'нерестилище');
+            addMarker(190, 50, 'перевёрнутый корабль');
+            addMarker(190, 110, 'пристанище кораблей');
+            addMarker(255, 80, 'плавающая деревня');
+            addMarker(320, 110, 'морская крепость А');
+            addMarker(355, 30, 'нависший корабль');
+            addMarker(385, 100, 'матросская гостиница');
+            addMarker(385, 160, 'круглый остров');
+            addMarker(325, 200, 'слоновий остров');
+            addMarker(200, 240, 'голубая дыра');
+            addMarker(135, 180, 'скалистый остров');
+
+
         } else {
             mapImg.style.opacity = 1;
             mapGrid.style.opacity = 0;
             mapImg.style.display = 'inline-block';
             mapGrid.style.display = 'none';
+            locationsTitle.style.textDecoration = 'none';
+            locationsTitle.style.color = 'rgb(221, 221, 221)';
+            document.querySelectorAll('.map-marker').forEach(marker => marker.remove());
         }
-
-        showingGrid ? locationsTitle.style.textDecoration = 'line-through' : locationsTitle.style.textDecoration = 'none';
-        showingGrid ? locationsTitle.style.color = 'gray' : locationsTitle.style.color = 'rgb(221, 221, 221)';
     });
 
-    main.addEventListener('wheel', (e) => {
+    mapContainer.addEventListener('wheel', (e) => {
         e.preventDefault();
 
-        const rect = mapImg.getBoundingClientRect();
-        const offsetX = e.clientX - rect.left;
-        const offsetY = e.clientY - rect.top;
+        const rect = mapInner.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
 
         const prevScale = scale;
-        scale += e.deltaY * -0.001;
-        scale = Math.min(Math.max(scale, 0.5), 5);
+        const zoomSpeed = 0.1;
+        const zoomFactor = e.deltaY < 0 ? 1 + zoomSpeed : 1 - zoomSpeed;
 
-        const zoomFactor = scale / prevScale;
-        translateX -= (offsetX - translateX) * (zoomFactor - 1);
-        translateY -= (offsetY - translateY) * (zoomFactor - 1);
+        scale = Math.min(Math.max(scale * zoomFactor, 0.2), 10);
+
+        const worldX = (mouseX - translateX) / prevScale;
+        const worldY = (mouseY - translateY) / prevScale;
+
+        translateX = mouseX - worldX * scale;
+        translateY = mouseY - worldY * scale;
+
+        markerScale = 1 / scale;
+        markerScale = Math.min(Math.max(markerScale, 0.1), 10);
 
         updateTransform();
-    }, { passive: false });
+    });
 
     let isDragging = false;
     let startX, startY;
 
-    main.addEventListener('mousedown', (e) => {
+    mapContainer.addEventListener('mousedown', (e) => {
         if (e.button !== 0) return;
         isDragging = true;
         startX = e.clientX - translateX;
@@ -72,12 +115,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function updateTransform() {
-        const transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
-        mapImg.style.transform = transform;
-        mapGrid.style.transform = transform;
-        mapImg.style.transformOrigin = '0 0';
-        mapGrid.style.transformOrigin = '0 0';
+        mapInner.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+
+        document.querySelectorAll('.map-marker').forEach(marker => {
+            marker.style.transform = `scale(${markerScale})`;
+        });
     }
+
+    function addMarker(x, y, text) {
+        const span = document.createElement('span');
+        span.classList.add('map-marker');
+        span.style.left = x + 'px';
+        span.style.top = y + 'px';
+        span.textContent = text;
+        mapInner.appendChild(span);
+    };
 
     const sidebar = document.querySelector('.sidebar');
     const toggleSidebar = document.querySelector('.toggleSidebar');
@@ -97,4 +149,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
     });
+
+
 });
+
+

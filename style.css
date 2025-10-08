@@ -30,7 +30,7 @@ body {
     scrollbar-width: thin; 
     scrollbar-color: #555 #1e1e1e;
     position: relative;
-    z-index: 3;
+    z-index: 15;
     position: fixed;
     top: 0;
     left: 0;
@@ -103,7 +103,6 @@ main {
 .locations-list-item, .shrines-list-item, .loots-list-item {
     font-size: 16px;
     margin-bottom: 6px;
-    cursor: pointer;
     white-space: normal;
     overflow-wrap: break-word;
 }
@@ -112,6 +111,7 @@ main {
     display: flex;
     align-items: center;
     gap: 8px;
+    cursor: pointer;
 }
 
 .shrines-list-item::before {
@@ -154,7 +154,7 @@ main {
     content: '✧';
 }
 
-.locations-list-item:hover, .shrines-list-item:hover, .loots-list-item:hover {
+.shrines-list-item:hover, .loots-list-item:hover {
     color: rgb(134, 134, 134);
 }
 
@@ -168,20 +168,24 @@ main {
     align-items: center;
 }
 
+.map-inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: 0 0;
+    transform: translate(-50%, -50%) scale(1);
+}
+
 .map-img,
 .map-grid {
-    top: 0;
-    left: 0;
-    width: 100%;
+    width: 500px;
+    height: 500px;
     height: auto;
     user-select: none;
     -webkit-user-drag: none;
-    pointer-events: none;
 }
 
 .map-img {
-    width: 500px;
-    height: 500px;
     z-index: 2;
 }
 
@@ -190,4 +194,24 @@ main {
     height: 500px;
     z-index: 1;
     display: none;
+}
+
+.map-marker {
+    position: absolute;
+    width: fit-content;
+    height: 40px;
+    transform: translateX(-50% -50%);
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.458);
+    color: white;
+
+    display: inline-block;
+    max-width: 110px;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    display: flex;
+    align-items: center;
+    text-align: center;
 }
