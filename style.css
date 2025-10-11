@@ -246,3 +246,45 @@ main {
     align-items: center;
     text-align: center;
 }
+
+.speedshrine-marker,
+.strengthshrine-marker,
+.defenseshrine-marker,
+.resurrectionshrine-marker,
+.healthshrine-marker {
+    position: absolute;
+    width: fit-content;
+    height: 40px;
+    transform: translateX(-50% -50%);
+    z-index: 10;
+
+    display: inline-block;
+    max-width: 110px;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.speedshrine-marker {
+    color: blue;
+}
+
+.strengthshrine-marker {
+    color: red;
+}
+
+.defenseshrine-marker {
+    color: gray;
+}
+
+.resurrectionshrine-marker {
+    color: white;
+}
+
+.healthshrine-marker {
+    color: green;
+}

@@ -153,6 +153,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const goldChest = document.querySelector("body > aside > nav > ul.loots-list > li:nth-child(2)");
     handleMarkerDisplay(goldChest, '.goldchest-marker', setGoldChestMarkers);
 
+    const shrines = {
+        speed: document.querySelector("body > aside > nav > ul.shrines-list > li:nth-child(1)"),
+        strength: document.querySelector("body > aside > nav > ul.shrines-list > li:nth-child(2)"),
+        defense: document.querySelector("body > aside > nav > ul.shrines-list > li:nth-child(3)"),
+        resurrection: document.querySelector("body > aside > nav > ul.shrines-list > li:nth-child(4)"),
+        health: document.querySelector("body > aside > nav > ul.shrines-list > li:nth-child(5)"),
+    };
+
+    const shrinesTitle = document.querySelector('.shrines-title');
+    let shrinesShown = false;
+    shrinesTitle.addEventListener('click', () => {
+        shrinesShown = !shrinesShown;
+
+        if (shrinesShown) {
+            toggleListItemStyle(shrinesTitle, shrinesShown);
+
+            setAllShrineMarkers();
+
+        } else {
+            removeMarkers('[class$="shrine-marker"]');
+
+            toggleListItemStyle(shrinesTitle, shrinesShown);
+            for (const shrine of shrines) {
+                toggleListItemStyle(shrine, shrinesShown);
+            }
+        }
+    });
+
+    handleAllShrines();
+
     function handleMarkerDisplay(itemToDisplay, markerClass, setMarkersFunction) {
         let markerShown = false;
         itemToDisplay.addEventListener('click', () => {
@@ -169,8 +199,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function removeMarkers(className) {
-        document.querySelectorAll(className).forEach(marker => marker.remove());
+    function handleAllShrines() {
+        const shrineConfigs = [
+            ['speed', '.speedshrine-marker', setSpeedMarkers],
+            ['strength', '.strengthshrine-marker', setStrengthMarkers],
+            ['defense', '.defenseshrine-marker', setDefenseMarkers],
+            ['resurrection', '.resurrectionshrine-marker', setResurrectionMarkers],
+            ['health', '.healthshrine-marker', setHealthMarkers],
+        ];
+
+        for (const [key, selector, fn] of shrineConfigs) {
+            handleMarkerDisplay(shrines[key], selector, fn);
+        }
     }
 
     function toggleListItemStyle(item, status) {
@@ -197,60 +237,150 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+
     function setRandomChestMarkers() {
-        addMarker(60, 60, '◇', 'randomchest-marker');
-        addMarker(167, 100, '◇', 'randomchest-marker');
-        addMarker(243, 105, '◇', 'randomchest-marker');
-        addMarker(297, 76, '◇', 'randomchest-marker');
-        addMarker(360, 55, '◇', 'randomchest-marker');
-        addMarker(173, 185, '◇', 'randomchest-marker');
-        addMarker(421, 178, '◇', 'randomchest-marker');
-        addMarker(108, 238, '◇', 'randomchest-marker');
-        addMarker(119, 300, '◇', 'randomchest-marker');
-        addMarker(405, 388, '◇', 'randomchest-marker');
-        addMarker(405, 388, '◇', 'randomchest-marker');
-        addMarker(247, 438, '◇', 'randomchest-marker');
-        addMarker(312, 408, '◇', 'randomchest-marker');
-        addMarker(316, 411, '◇', 'randomchest-marker');
+        const coordinates = [
+            [60, 60],
+            [167, 100],
+            [243, 105],
+            [297, 76],
+            [360, 55],
+            [173, 185],
+            [421, 178],
+            [108, 238],
+            [119, 300],
+            [405, 388],
+            [247, 438],
+            [312, 408],
+            [316, 411],];
+
+        for (const coord of coordinates) {
+            addMarker(coord[0], coord[1], '◇', 'randomchest-marker');
+        }
     }
 
     function setGoldChestMarkers() {
-        addMarker(120, 184, '☆', 'goldchest-marker');
-        addMarker(177, 178, '☆', 'goldchest-marker');
-        addMarker(46, 252, '☆', 'goldchest-marker');
-        addMarker(46, 252, '☆', 'goldchest-marker');
-        addMarker(185, 356, '☆', 'goldchest-marker');
-        addMarker(179, 400, '☆', 'goldchest-marker');
-        addMarker(428, 423, '☆', 'goldchest-marker');
+        const coordinates = [
+            [120, 184],
+            [177, 178],
+            [46, 252],
+            [185, 356],
+            [179, 400],
+            [428, 423],];
+
+        for (const coord of coordinates) {
+            addMarker(coord[0], coord[1], '☆', 'goldchest-marker');
+        }
     }
 
     function setLocationMarkers() {
-        addMarker(355, 380, 'остров черепа');
-        addMarker(410, 295, 'канава');
-        addMarker(315, 295, 'долина морских звёзд');
-        addMarker(260, 420, 'подводная пещера А');
-        addMarker(190, 400, 'заброшенный корабль');
-        addMarker(160, 410, 'вулкан');
-        addMarker(30, 390, 'пиратская тюрьма');
-        addMarker(135, 350, 'коралловый лес');
-        addMarker(70, 295, 'двойные камеры');
-        addMarker(70, 240, 'туманный дозор');
-        addMarker(5, 240, 'затонувший корабль');
-        addMarker(70, 180, 'гробница русалок');
-        addMarker(45, 80, 'убежище блейдхэнда');
-        addMarker(140, 110, 'нерестилище');
-        addMarker(190, 50, 'перевёрнутый корабль');
-        addMarker(190, 110, 'пристанище кораблей');
-        addMarker(255, 80, 'плавающая деревня');
-        addMarker(320, 110, 'морская крепость А');
-        addMarker(355, 30, 'нависший корабль');
-        addMarker(385, 100, 'матросская гостиница');
-        addMarker(385, 160, 'круглый остров');
-        addMarker(325, 200, 'слоновий остров');
-        addMarker(200, 240, 'голубая дыра');
-        addMarker(135, 180, 'скалистый остров');
+        const coordinates = [
+            [355, 380, 'остров черепа'],
+            [410, 295, 'канава'],
+            [315, 295, 'долина морских звёзд'],
+            [260, 420, 'подводная пещера А'],
+            [190, 400, 'заброшенный корабль'],
+            [160, 410, 'вулкан'],
+            [30, 390, 'пиратская тюрьма'],
+            [135, 350, 'коралловый лес'],
+            [70, 295, 'двойные камеры'],
+            [70, 240, 'туманный дозор'],
+            [5, 240, 'затонувший корабль'],
+            [70, 180, 'гробница русалок'],
+            [45, 80, 'убежище блейдхэнда'],
+            [140, 110, 'нерестилище'],
+            [190, 50, 'перевёрнутый корабль'],
+            [190, 110, 'пристанище кораблей'],
+            [255, 80, 'плавающая деревня'],
+            [320, 110, 'морская крепость А'],
+            [355, 30, 'нависший корабль'],
+            [385, 100, 'матросская гостиница'],
+            [385, 160, 'круглый остров'],
+            [325, 200, 'слоновий остров'],
+            [200, 240, 'голубая дыра'],
+            [135, 180, 'скалистый остров'],
+        ];
+
+        for (const [x, y, name] of coordinates) {
+            addMarker(x, y, name);
+        }
     }
 
+    function setSpeedMarkers() {
+        const coordinates = [
+            [234, 130],
+            [410, 122],
+            [119, 178],
+            [51, 375],];
+
+        for (const coord of coordinates) {
+            addMarker(coord[0], coord[1], '〇', 'speedshrine-marker');
+        }
+    }
+
+    function setStrengthMarkers() {
+        const coordinates = [
+            [359, 302],
+            [437, 416],];
+
+        for (const coord of coordinates) {
+            addMarker(coord[0], coord[1], '〇', 'strengthshrine-marker');
+        }
+    }
+
+    function setDefenseMarkers() {
+        const coordinates = [
+            [59, 234],
+            [111, 232],
+            [54, 403],];
+
+        for (const coord of coordinates) {
+            addMarker(coord[0], coord[1], '〇', 'defenseshrine-marker');
+        }
+    }
+
+    function setResurrectionMarkers() {
+        const coordinates = [
+            [97, 108],
+            [180, 180],
+            [351, 176],
+            [178, 419],
+            [400, 416],
+            [308, 423],];
+
+        for (const coord of coordinates) {
+            addMarker(coord[0], coord[1], '〇', 'resurrectionshrine-marker');
+        }
+    }
+
+    function setHealthMarkers() {
+        const coordinates = [
+            [54, 59],
+            [297, 76],
+            [122, 181],
+            [178, 356],
+            [408, 403],];
+
+        for (const coord of coordinates) {
+            addMarker(coord[0], coord[1], '〇', 'healthshrine-marker');
+        }
+    }
+
+    function setAllShrineMarkers() {
+        const markerSetters = [
+            setSpeedMarkers,
+            setStrengthMarkers,
+            setDefenseMarkers,
+            setResurrectionMarkers,
+            setHealthMarkers,
+        ];
+
+        markerSetters.forEach(func => func());
+    }
+
+    function removeMarkers(className) {
+        document.querySelectorAll(className).forEach(marker => marker.remove());
+    }
 
 });
 
