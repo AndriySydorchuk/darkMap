@@ -7,13 +7,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const mapGrid = document.querySelector('.map-grid');
 
     const locationsTitle = document.querySelector('.locations-title');
-    
+
     let scale = 1;
     let markerScale = 1;
     let translateX = 0;
     let translateY = 0;
-    
+
     let showingGrid = false;
+
+    function centerMap() {
+        const containerRect = mapContainer.getBoundingClientRect();
+        const mapWidth = 500 * scale;
+        const mapHeight = 500 * scale;
+        translateX = (containerRect.width - mapWidth) / 2;
+        translateY = (containerRect.height - mapHeight) / 2;
+        updateTransform();
+    }
+
+    setTimeout(centerMap, 0);
 
     mapImg.addEventListener('dragstart', e => e.preventDefault());
     mapGrid.addEventListener('dragstart', e => e.preventDefault());
@@ -69,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     mapContainer.addEventListener('wheel', (e) => {
         e.preventDefault();
 
-        const rect = mapInner.getBoundingClientRect();
+        const rect = mapContainer.getBoundingClientRect();
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
 
@@ -137,8 +148,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     toggleSidebar.addEventListener('click', () => {
         toggledSidebar = !toggledSidebar;
-        
-        if(toggledSidebar) {
+
+        if (toggledSidebar) {
             toggleSidebar.style.transform = 'scaleX(-1)';
             toggleSidebar.style.left = '0';
             sidebar.classList.add('collapsed');
@@ -147,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
             toggleSidebar.style.left = '442px';
             sidebar.classList.remove('collapsed');
         }
-        
+
     });
 
 

@@ -5,7 +5,8 @@
     color: rgb(221, 221, 221);
 }
 
-html, body {
+html,
+body {
     height: 100%;
     overflow: hidden;
 }
@@ -27,7 +28,7 @@ body {
     overflow-y: auto;
     overflow-x: hidden;
     height: 100vh;
-    scrollbar-width: thin; 
+    scrollbar-width: thin;
     scrollbar-color: #555 #1e1e1e;
     position: relative;
     z-index: 15;
@@ -49,10 +50,12 @@ body {
 .sidebar::-webkit-scrollbar {
     width: 8px;
 }
+
 .sidebar::-webkit-scrollbar-thumb {
     background-color: #555;
     border-radius: 4px;
 }
+
 .sidebar::-webkit-scrollbar-track {
     background: #1e1e1e;
 }
@@ -78,7 +81,9 @@ main {
     position: relative;
 }
 
-.locations-title, .shrines-title, .loots-title {
+.locations-title,
+.shrines-title,
+.loots-title {
     font-weight: bold;
     margin: 20px 0 10px;
     font-size: 18px;
@@ -86,7 +91,9 @@ main {
     padding-bottom: 4px;
 }
 
-.locations-list, .shrines-list, .loots-list {
+.locations-list,
+.shrines-list,
+.loots-list {
     margin: 0;
     padding: 0 0 10px 10px;
     columns: 2;
@@ -96,18 +103,22 @@ main {
     list-style: decimal inside;
 }
 
-.shrines-list, .loots-list {
+.shrines-list,
+.loots-list {
     list-style: none;
 }
 
-.locations-list-item, .shrines-list-item, .loots-list-item {
+.locations-list-item,
+.shrines-list-item,
+.loots-list-item {
     font-size: 16px;
     margin-bottom: 6px;
     white-space: normal;
     overflow-wrap: break-word;
 }
 
-.shrines-list-item, .loots-list-item {
+.shrines-list-item,
+.loots-list-item {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -154,7 +165,8 @@ main {
     content: '✧';
 }
 
-.shrines-list-item:hover, .loots-list-item:hover {
+.shrines-list-item:hover,
+.loots-list-item:hover {
     color: rgb(134, 134, 134);
 }
 
@@ -170,10 +182,10 @@ main {
 
 .map-inner {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 0;
+    left: 0;
     transform-origin: 0 0;
-    transform: translate(-50%, -50%) scale(1);
+    transform: translate(0px, 0px) scale(1);
 }
 
 .map-img,
