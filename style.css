@@ -89,9 +89,11 @@ main {
     font-size: 18px;
     border-bottom: 1px solid #333;
     padding-bottom: 4px;
+    text-decoration: line-through;
+    color: gray;
+    cursor: pointer;
 }
 
-.locations-list,
 .shrines-list,
 .loots-list {
     margin: 0;
@@ -99,22 +101,18 @@ main {
     columns: 2;
 }
 
-.locations-list {
-    list-style: decimal inside;
-}
-
 .shrines-list,
 .loots-list {
     list-style: none;
 }
 
-.locations-list-item,
 .shrines-list-item,
 .loots-list-item {
     font-size: 16px;
     margin-bottom: 6px;
     white-space: normal;
     overflow-wrap: break-word;
+    color: gray;
 }
 
 .shrines-list-item,
@@ -123,6 +121,7 @@ main {
     align-items: center;
     gap: 8px;
     cursor: pointer;
+    text-decoration: line-through;
 }
 
 .shrines-list-item::before {
@@ -136,7 +135,7 @@ main {
 }
 
 .shrines-list-item:nth-child(3)::before {
-    color: gray;
+    color: darkgray;
 }
 
 .shrines-list-item:nth-child(4)::before {
@@ -278,7 +277,9 @@ main {
 }
 
 .defenseshrine-marker {
-    color: gray;
+    color: darkgray;
+    background-color: #0f0f0f;
+    height: fit-content;
 }
 
 .resurrectionshrine-marker {

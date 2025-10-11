@@ -136,22 +136,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (lootsShown) {
             toggleListItemStyle(lootsTitle, lootsShown);
+            toggleListItemStyle(loots.randomChest, lootsShown);
+            toggleListItemStyle(loots.goldChest, lootsShown);
 
-            setRandomChestMarkers();
-            setGoldChestMarkers();
+            setAllLootsMarkers();
 
         } else {
             removeMarkers('[class$="chest-marker"]');
             toggleListItemStyle(lootsTitle, lootsShown);
-            toggleListItemStyle(randomChest, lootsShown);
+            toggleListItemStyle(loots.randomChest, lootsShown);
+            toggleListItemStyle(loots.goldChest, lootsShown);
         }
     });
 
-    const randomChest = document.querySelector("body > aside > nav > ul.loots-list > li:nth-child(1)");
-    handleMarkerDisplay(randomChest, '.randomchest-marker', setRandomChestMarkers);
+    const loots = {
+        randomChest: document.querySelector("body > aside > nav > ul.loots-list > li:nth-child(1)"),
+        goldChest: document.querySelector("body > aside > nav > ul.loots-list > li:nth-child(2)"),
+    };
 
-    const goldChest = document.querySelector("body > aside > nav > ul.loots-list > li:nth-child(2)");
-    handleMarkerDisplay(goldChest, '.goldchest-marker', setGoldChestMarkers);
+    handleAllLootsLabels();
 
     const shrines = {
         speed: document.querySelector("body > aside > nav > ul.shrines-list > li:nth-child(1)"),
@@ -169,19 +172,29 @@ document.addEventListener('DOMContentLoaded', () => {
         if (shrinesShown) {
             toggleListItemStyle(shrinesTitle, shrinesShown);
 
+            toggleListItemStyle(shrines.speed, shrinesShown);
+            toggleListItemStyle(shrines.strength, shrinesShown);
+            toggleListItemStyle(shrines.defense, shrinesShown);
+            toggleListItemStyle(shrines.resurrection, shrinesShown);
+            toggleListItemStyle(shrines.health, shrinesShown);
+
+
             setAllShrineMarkers();
 
         } else {
             removeMarkers('[class$="shrine-marker"]');
 
             toggleListItemStyle(shrinesTitle, shrinesShown);
-            for (const shrine of shrines) {
-                toggleListItemStyle(shrine, shrinesShown);
-            }
+
+            toggleListItemStyle(shrines.speed, shrinesShown);
+            toggleListItemStyle(shrines.strength, shrinesShown);
+            toggleListItemStyle(shrines.defense, shrinesShown);
+            toggleListItemStyle(shrines.resurrection, shrinesShown);
+            toggleListItemStyle(shrines.health, shrinesShown);
         }
     });
 
-    handleAllShrines();
+    handleAllShrinesLabels();
 
     function handleMarkerDisplay(itemToDisplay, markerClass, setMarkersFunction) {
         let markerShown = false;
@@ -199,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function handleAllShrines() {
+    function handleAllShrinesLabels() {
         const shrineConfigs = [
             ['speed', '.speedshrine-marker', setSpeedMarkers],
             ['strength', '.strengthshrine-marker', setStrengthMarkers],
@@ -213,13 +226,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function handleAllLootsLabels() {
+        const lootConfigs = [
+            ['randomChest', '.randomchest-marker', setRandomChestMarkers],
+            ['goldChest', '.goldchest-marker', setGoldChestMarkers],
+        ];
+
+        for (const [key, selector, fn] of lootConfigs) {
+            handleMarkerDisplay(loots[key], selector, fn);
+        }
+    }
+
     function toggleListItemStyle(item, status) {
         if (status) {
-            item.style.textDecoration = 'line-through';
-            item.style.color = 'gray';
-        } else {
             item.style.textDecoration = 'none';
             item.style.color = 'rgb(221, 221, 221)';
+        } else {
+            item.style.textDecoration = 'line-through';
+            item.style.color = 'gray';
         }
     }
 
@@ -314,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
             [51, 375],];
 
         for (const coord of coordinates) {
-            addMarker(coord[0], coord[1], '〇', 'speedshrine-marker');
+            addMarker(coord[0], coord[1], '⬤', 'speedshrine-marker');
         }
     }
 
@@ -324,7 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
             [437, 416],];
 
         for (const coord of coordinates) {
-            addMarker(coord[0], coord[1], '〇', 'strengthshrine-marker');
+            addMarker(coord[0], coord[1], '⬤', 'strengthshrine-marker');
         }
     }
 
@@ -335,7 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
             [54, 403],];
 
         for (const coord of coordinates) {
-            addMarker(coord[0], coord[1], '〇', 'defenseshrine-marker');
+            addMarker(coord[0], coord[1], '⬤', 'defenseshrine-marker');
         }
     }
 
@@ -349,7 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
             [308, 423],];
 
         for (const coord of coordinates) {
-            addMarker(coord[0], coord[1], '〇', 'resurrectionshrine-marker');
+            addMarker(coord[0], coord[1], '⬤', 'resurrectionshrine-marker');
         }
     }
 
@@ -362,7 +386,7 @@ document.addEventListener('DOMContentLoaded', () => {
             [408, 403],];
 
         for (const coord of coordinates) {
-            addMarker(coord[0], coord[1], '〇', 'healthshrine-marker');
+            addMarker(coord[0], coord[1], '⬤', 'healthshrine-marker');
         }
     }
 
@@ -373,6 +397,15 @@ document.addEventListener('DOMContentLoaded', () => {
             setDefenseMarkers,
             setResurrectionMarkers,
             setHealthMarkers,
+        ];
+
+        markerSetters.forEach(func => func());
+    }
+
+    function setAllLootsMarkers() {
+        const markerSetters = [
+            setRandomChestMarkers,
+            setGoldChestMarkers,
         ];
 
         markerSetters.forEach(func => func());
