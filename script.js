@@ -33,47 +33,15 @@ document.addEventListener('DOMContentLoaded', () => {
         showingGrid = !showingGrid;
 
         if (showingGrid) {
-            mapImg.style.opacity = 0;
-            mapGrid.style.opacity = 1;
-            mapImg.style.display = 'none';
-            mapGrid.style.display = 'inline-block';
-            locationsTitle.style.textDecoration = 'line-through';
-            locationsTitle.style.color = 'gray';
+            toggleMapStyle(showingGrid);
+            toggleListItemStyle(locationsTitle, showingGrid);
 
-            addMarker(355, 380, 'остров черепа');
-            addMarker(410, 295, 'канава');
-            addMarker(315, 295, 'долина морских звёзд');
-            addMarker(260, 420, 'подводная пещера А');
-            addMarker(190, 400, 'заброшенный корабль');
-            addMarker(160, 410, 'вулкан');
-            addMarker(30, 390, 'пиратская тюрьма');
-            addMarker(135, 350, 'коралловый лес');
-            addMarker(70, 295, 'двойные камеры');
-            addMarker(70, 240, 'туманный дозор');
-            addMarker(5, 240, 'затонувший корабль');
-            addMarker(70, 180, 'гробница русалок');
-            addMarker(45, 80, 'убежище блейдхэнда');
-            addMarker(140, 110, 'нерестилище');
-            addMarker(190, 50, 'перевёрнутый корабль');
-            addMarker(190, 110, 'пристанище кораблей');
-            addMarker(255, 80, 'плавающая деревня');
-            addMarker(320, 110, 'морская крепость А');
-            addMarker(355, 30, 'нависший корабль');
-            addMarker(385, 100, 'матросская гостиница');
-            addMarker(385, 160, 'круглый остров');
-            addMarker(325, 200, 'слоновий остров');
-            addMarker(200, 240, 'голубая дыра');
-            addMarker(135, 180, 'скалистый остров');
-
-
+            setLocationMarkers();
         } else {
-            mapImg.style.opacity = 1;
-            mapGrid.style.opacity = 0;
-            mapImg.style.display = 'inline-block';
-            mapGrid.style.display = 'none';
-            locationsTitle.style.textDecoration = 'none';
-            locationsTitle.style.color = 'rgb(221, 221, 221)';
-            document.querySelectorAll('.map-marker').forEach(marker => marker.remove());
+            toggleMapStyle(showingGrid);
+            toggleListItemStyle(locationsTitle, showingGrid);
+
+            removeMarkers('.map-marker');
         }
     });
 
@@ -128,14 +96,14 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateTransform() {
         mapInner.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
 
-        document.querySelectorAll('.map-marker').forEach(marker => {
+        document.querySelectorAll('[class$="-marker"]').forEach(marker => {
             marker.style.transform = `scale(${markerScale})`;
         });
     }
 
-    function addMarker(x, y, text) {
+    function addMarker(x, y, text, className = 'map-marker') {
         const span = document.createElement('span');
-        span.classList.add('map-marker');
+        span.classList.add(className);
         span.style.left = x + 'px';
         span.style.top = y + 'px';
         span.textContent = text;
@@ -160,6 +128,128 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
     });
+
+    const lootsTitle = document.querySelector('.loots-title');
+    let lootsShown = false;
+    lootsTitle.addEventListener('click', () => {
+        lootsShown = !lootsShown;
+
+        if (lootsShown) {
+            toggleListItemStyle(lootsTitle, lootsShown);
+
+            setRandomChestMarkers();
+            setGoldChestMarkers();
+
+        } else {
+            removeMarkers('[class$="chest-marker"]');
+            toggleListItemStyle(lootsTitle, lootsShown);
+            toggleListItemStyle(randomChest, lootsShown);
+        }
+    });
+
+    const randomChest = document.querySelector("body > aside > nav > ul.loots-list > li:nth-child(1)");
+    handleMarkerDisplay(randomChest, '.randomchest-marker', setRandomChestMarkers);
+
+    const goldChest = document.querySelector("body > aside > nav > ul.loots-list > li:nth-child(2)");
+    handleMarkerDisplay(goldChest, '.goldchest-marker', setGoldChestMarkers);
+
+    function handleMarkerDisplay(itemToDisplay, markerClass, setMarkersFunction) {
+        let markerShown = false;
+        itemToDisplay.addEventListener('click', () => {
+            markerShown = !markerShown;
+
+            if (markerShown) {
+                toggleListItemStyle(itemToDisplay, markerShown);
+                setMarkersFunction();
+            } else {
+                removeMarkers(markerClass);
+                toggleListItemStyle(itemToDisplay, markerShown);
+            }
+
+        });
+    }
+
+    function removeMarkers(className) {
+        document.querySelectorAll(className).forEach(marker => marker.remove());
+    }
+
+    function toggleListItemStyle(item, status) {
+        if (status) {
+            item.style.textDecoration = 'line-through';
+            item.style.color = 'gray';
+        } else {
+            item.style.textDecoration = 'none';
+            item.style.color = 'rgb(221, 221, 221)';
+        }
+    }
+
+    function toggleMapStyle(status) {
+        if (status) {
+            mapImg.style.opacity = 0;
+            mapGrid.style.opacity = 1;
+            mapImg.style.display = 'none';
+            mapGrid.style.display = 'inline-block';
+        } else {
+            mapImg.style.opacity = 1;
+            mapGrid.style.opacity = 0;
+            mapImg.style.display = 'inline-block';
+            mapGrid.style.display = 'none';
+        }
+    }
+
+    function setRandomChestMarkers() {
+        addMarker(60, 60, '◇', 'randomchest-marker');
+        addMarker(167, 100, '◇', 'randomchest-marker');
+        addMarker(243, 105, '◇', 'randomchest-marker');
+        addMarker(297, 76, '◇', 'randomchest-marker');
+        addMarker(360, 55, '◇', 'randomchest-marker');
+        addMarker(173, 185, '◇', 'randomchest-marker');
+        addMarker(421, 178, '◇', 'randomchest-marker');
+        addMarker(108, 238, '◇', 'randomchest-marker');
+        addMarker(119, 300, '◇', 'randomchest-marker');
+        addMarker(405, 388, '◇', 'randomchest-marker');
+        addMarker(405, 388, '◇', 'randomchest-marker');
+        addMarker(247, 438, '◇', 'randomchest-marker');
+        addMarker(312, 408, '◇', 'randomchest-marker');
+        addMarker(316, 411, '◇', 'randomchest-marker');
+    }
+
+    function setGoldChestMarkers() {
+        addMarker(120, 184, '☆', 'goldchest-marker');
+        addMarker(177, 178, '☆', 'goldchest-marker');
+        addMarker(46, 252, '☆', 'goldchest-marker');
+        addMarker(46, 252, '☆', 'goldchest-marker');
+        addMarker(185, 356, '☆', 'goldchest-marker');
+        addMarker(179, 400, '☆', 'goldchest-marker');
+        addMarker(428, 423, '☆', 'goldchest-marker');
+    }
+
+    function setLocationMarkers() {
+        addMarker(355, 380, 'остров черепа');
+        addMarker(410, 295, 'канава');
+        addMarker(315, 295, 'долина морских звёзд');
+        addMarker(260, 420, 'подводная пещера А');
+        addMarker(190, 400, 'заброшенный корабль');
+        addMarker(160, 410, 'вулкан');
+        addMarker(30, 390, 'пиратская тюрьма');
+        addMarker(135, 350, 'коралловый лес');
+        addMarker(70, 295, 'двойные камеры');
+        addMarker(70, 240, 'туманный дозор');
+        addMarker(5, 240, 'затонувший корабль');
+        addMarker(70, 180, 'гробница русалок');
+        addMarker(45, 80, 'убежище блейдхэнда');
+        addMarker(140, 110, 'нерестилище');
+        addMarker(190, 50, 'перевёрнутый корабль');
+        addMarker(190, 110, 'пристанище кораблей');
+        addMarker(255, 80, 'плавающая деревня');
+        addMarker(320, 110, 'морская крепость А');
+        addMarker(355, 30, 'нависший корабль');
+        addMarker(385, 100, 'матросская гостиница');
+        addMarker(385, 160, 'круглый остров');
+        addMarker(325, 200, 'слоновий остров');
+        addMarker(200, 240, 'голубая дыра');
+        addMarker(135, 180, 'скалистый остров');
+    }
 
 
 });

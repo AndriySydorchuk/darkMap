@@ -216,6 +216,25 @@ main {
     z-index: 10;
     background-color: rgba(0, 0, 0, 0.458);
     color: white;
+    display: inline-block;
+    max-width: 110px;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.randomchest-marker,
+.goldchest-marker {
+    position: absolute;
+    width: fit-content;
+    height: 40px;
+    transform: translateX(-50% -50%);
+    z-index: 10;
+    color: gold;
 
     display: inline-block;
     max-width: 110px;
